@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World</title>
+  <script src="./lib/react.development-16.2.0.js"></script>
+  <script src="./lib/react-dom.development-16.2.0.js"></script>
+  <script src="./lib/prop-types-15.6.0.js"></script>
+  <script src="./lib/babel.min-6.15.0.js"></script>
+  <script src="./lib/vue-2.5.13.js"></script>
+  <script src="./lib/vuex-3.0.1.js"></script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const storeKey = '$store'
+    const subscriptionKey = '$storeSubscription'
+
+    // ------------------------------------------------------------------------
+    // STORE CONFIGURATION
+    // ------------------------------------------------------------------------
+    Vue.use(Vuex)
+    const store = new Vuex.Store({
+      state: {
+        count: 0,
+        isIncrementing: false
+      },
+      getters: {
+        countGreaterThan2: (state, getters) => state.count > 2
+      },
+      mutations: {
+        increment(state) {
+          state.count++
+        },
+        incrementStart(state) {
+          state.isIncrementing = true
+        },
+        incrementStop(state) {
+          state.isIncrementing = false
+        }
+      },
+      actions: {
+        incrementAsync(context) {
+          context.commit('incrementStart')
+          return new Promise(resolve => {
+            setTimeout(() => {
+              context.commit('increment')
+              resolve()
+            }, 500)
+          }).then(() => context.commit('incrementStop'))
+        }
+      },
+      modules: {
+        mod1: {
+          namespaced: true,
+          state: {
+            count: 1000,
+            isIncrementing: false
+          },
+          getters: {
+            countGreaterThan1002: (state, getters) => state.count > 1002
+          },
+          mutations: {
+            increment(state) {
+              state.count++
+            },
+            incrementStart(state) {
+              state.isIncrementing = true
+            },
+            incrementStop(state) {
+              state.isIncrementing = false
+            }
+          },
+          actions: {
+            incrementAsync(context) {
+              context.commit('incrementStart')
+              return new Promise(resolve => {
+                setTimeout(() => {
+                  context.commit('increment')
+                  resolve()
+                }, 500)
+              }).then(() => context.commit('incrementStop'))
+            }
+          }
+        }
+      }
+    })
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+
+    // ------------------------------------------------------------------------
+    // PROVIDER COMPONENT
+    // ------------------------------------------------------------------------
+    const createProvider = () => {
+      class Provider extends React.Component {
+        getChildContext() {
+          return {
+            [storeKey]: this[storeKey],
+            [subscriptionKey]: null
+          }
+        }
+
+        constructor(props, context) {
+          super(props, context)
+          this[storeKey] = props.store;
+        }
+
+        render() {
+          return React.Children.only(this.props.children)
+        }
+      }
+
+      // if (process.env.NODE_ENV !== 'production') {
+      //   Provider.prototype.componentWillReceiveProps = function (nextProps) {
+      //     if (this[storeKey] !== nextProps.store) {
+      //       warnAboutReceivingStore()
+      //     }
+      //   }
+      // }
+
+      Provider.propTypes = {
+        store: PropTypes.object.isRequired,
+        children: PropTypes.element.isRequired,
+      }
+      Provider.childContextTypes = {
+        [storeKey]: PropTypes.object.isRequired,
+        [subscriptionKey]: PropTypes.object,
+      }
+
+      return Provider
+    }
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+    const Provider = createProvider()
+
+    // store.subscribe((mutation, state) => {
+    //   console.log(mutation, state)
+    // })
+
+    // ------------------------------------------------------------------------
+    // CHILD1 COMPONENT
+    // ------------------------------------------------------------------------
+    class Child1 extends React.Component {
+      constructor(props, context) {
+        super(props, context)
+        this.handleClick = this.handleClick.bind(this)
+        this.handleClickAsync = this.handleClickAsync.bind(this)
+      }
+      handleClick() {
+        store.commit('increment')
+      }
+      handleClickAsync() {
+        store.dispatch('incrementAsync')
+      }
+      render() {
+        return (
+          <div>
+            I am a Child1, count is {this.props.count}
+            <button onClick={this.handleClick}>Test</button>
+            <button onClick={this.handleClickAsync}>Test async</button>
+          </div>
+        )
+      }
+    }
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+    // ------------------------------------------------------------------------
+    // PRESENTATIONAL COMPONENT
+    // ------------------------------------------------------------------------
+    const connect = (mapStateToPropsFn) => (Component) => {
+      let passedProps = {}
+      class PresentationalComponent extends Component {
+        constructor(props, context) {
+          super(props, context)
+          this.store = props[storeKey] || context[storeKey]
+          this.subscription = props[subscriptionKey] || context[subscriptionKey]
+          passedProps = mapStateToPropsFn(this.store.state, props)
+        }
+
+        getChildContext() {
+          return {
+            [subscriptionKey]: this.subscription
+          }
+        }
+
+        render() {
+          return React.createElement(Component, { ...passedProps })
+        }
+      }
+      PresentationalComponent.childContextTypes = {
+        [subscriptionKey]: PropTypes.object,
+      }
+      PresentationalComponent.contextTypes = {
+        [storeKey]: PropTypes.object,
+        [subscriptionKey]: PropTypes.object,
+      }
+      PresentationalComponent.propTypes = {
+        [storeKey]: PropTypes.object,
+        [subscriptionKey]: PropTypes.object,
+      }
+      return PresentationalComponent
+    }
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+
+    const mapStateToProps = (state, ownProps) => {
+      return ({
+        count: state.count
+      })
+    }
+    const VisibleChild1 = connect(mapStateToProps)(Child1)
+
+
+    class Main extends React.Component {
+      constructor(props, context) {
+        super(props, context)
+        this.state = {
+          count: store.state.count
+        }
+        store.subscribe((mutation, state) => {
+          if (mutation.type === 'increment') {
+            this.setState({
+              count: store.state.count
+            })
+          }
+        })
+      }
+
+      render() {
+        return (
+          <div>
+            <Child1 count={this.state.count} />
+            <VisibleChild1 />
+          </div>
+        )
+      }
+    }
+    class Welcome extends React.Component {
+      render() {
+        return (
+          <div>
+            <h1>Hello, {this.props.name}!</h1>
+            <Provider store={store}>
+              <Main />
+            </Provider>
+          </div>
+        )
+      }
+    }
+
+    ReactDOM.render(
+      <div>
+        <h1>Hello, world!</h1>
+        <Welcome name="folks" />
+      </div>,
+      document.getElementById('root')
+    );
+  </script>
+</body>
+
+</html>
