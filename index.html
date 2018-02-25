@@ -1,0 +1,132 @@
+<html>
+
+<head>
+  <title>Test vuex without vue</title>
+  <script src="vue-2.5.13.js"></script>
+  <script src="vuex-3.0.1.js"></script>
+  <style>
+    body {
+      background-color: darkgray;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Test vuex without vue</h1>
+  <p>Test</p>
+  <script>
+    Vue.use(Vuex)
+    console.log(Vuex)
+    console.log(Vuex.Store)
+
+    const store = new Vuex.Store({
+      state: {
+        count: 0,
+        isIncrementing: false
+      },
+      getters: {
+        countGratherThan2: (state, getters) => state.count > 2
+      },
+      mutations: {
+        increment(state) {
+          state.count++
+        },
+        incrementStart(state) {
+          state.isIncrementing = true
+        },
+        incrementStop(state) {
+          state.isIncrementing = false
+        }
+      },
+      actions: {
+        incrementAsync(context) {
+          context.commit('incrementStart')
+          return new Promise(resolve => {
+            setTimeout(() => {
+              context.commit('increment')
+              resolve()
+            }, 500)
+          }).then(() => context.commit('incrementStop'))
+        }
+      },
+      modules: {
+        mod1: {
+          namespaced: true,
+          state: {
+            count: 1000,
+            isIncrementing: false
+          },
+          getters: {
+            countGratherThan1002: (state, getters) => state.count > 1002
+          },
+          mutations: {
+            increment(state) {
+              state.count++
+            },
+            incrementStart(state) {
+              state.isIncrementing = true
+            },
+            incrementStop(state) {
+              state.isIncrementing = false
+            }
+          },
+          actions: {
+            incrementAsync(context) {
+              context.commit('incrementStart')
+              return new Promise(resolve => {
+                setTimeout(() => {
+                  context.commit('increment')
+                  resolve()
+                }, 500)
+              }).then(() => context.commit('incrementStop'))
+            }
+          }
+        }
+      }
+    })
+
+    store.commit('increment')
+    console.log('count', store.state.count) // -> 1
+    console.log('countGratherThan2', store.getters.countGratherThan2) // -> false
+
+    store.commit('increment')
+    console.log('count', store.state.count) // -> 2
+    console.log('countGratherThan2', store.getters.countGratherThan2) // -> false
+
+    store.commit('increment')
+    console.log('count', store.state.count) // -> 3
+    console.log('countGratherThan2', store.getters.countGratherThan2) // -> true
+
+    const promise1 = store.dispatch('incrementAsync')
+    console.log('isIncrementing', store.state.isIncrementing)
+    promise1.then(() => {
+      console.log('count', store.state.count)
+      console.log('isIncrementing', store.state.isIncrementing)
+    })
+
+    // const { createNamespacedHelpers } = Vuex
+    // const { mapState, mapGetters } = createNamespacedHelpers('mod1')
+    const mod1State = store.state.mod1
+
+    store.commit('mod1/increment')
+    console.log('mod1/count', mod1State.count)
+    console.log('mod1/countGratherThan1002', store.getters['mod1/countGratherThan1002'])
+
+    store.commit('mod1/increment')
+    console.log('mod1/count', mod1State.count)
+    console.log('mod1/countGratherThan1002', store.getters['mod1/countGratherThan1002'])
+
+    store.commit('mod1/increment')
+    console.log('mod1/count', mod1State.count)
+    console.log('mod1/countGratherThan1002', store.getters['mod1/countGratherThan1002'])
+
+    const promise2 = store.dispatch('mod1/incrementAsync')
+    console.log('mod1/isIncrementing', mod1State.isIncrementing)
+    promise2.then(() => {
+      console.log('mod1/count', mod1State.count)
+      console.log('mod1/isIncrementing', mod1State.isIncrementing)
+    })
+  </script>
+</body>
+
+</html>
