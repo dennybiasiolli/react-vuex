@@ -22,6 +22,28 @@
     // STORE CONFIGURATION
     // ------------------------------------------------------------------------
     Vue.use(Vuex)
+
+    const mutationTypes = {
+      INCREMENT: 'INCREMENT',
+      INCREMENT_START: 'INCREMENT_START',
+      INCREMENT_STOP: 'INCREMENT_STOP'
+    }
+    const actionTypes = {
+      INCREMENT_ASYNC: 'INCREMENT_ASYNC'
+    }
+    const mutations = {
+      increment: (value = 1) => ({
+        type: mutationTypes.INCREMENT,
+        value: value
+      })
+    }
+    const actions = {
+      incrementAsync: (value = 1) => ({
+        type: actionTypes.INCREMENT_ASYNC,
+        value: value
+      })
+    }
+
     const store = new Vuex.Store({
       state: {
         count: 0,
@@ -31,25 +53,26 @@
         countGreaterThan2: (state, getters) => state.count > 2
       },
       mutations: {
-        increment(state) {
+        [mutationTypes.INCREMENT](state) {
           state.count++
         },
-        incrementStart(state) {
+        [mutationTypes.INCREMENT_START](state) {
           state.isIncrementing = true
         },
-        incrementStop(state) {
+        [mutationTypes.INCREMENT_STOP](state) {
           state.isIncrementing = false
         }
       },
       actions: {
-        incrementAsync(context) {
-          context.commit('incrementStart')
+        [actionTypes.INCREMENT_ASYNC]({commit, state}, payload) {
+          commit(mutationTypes.INCREMENT_START)
           return new Promise(resolve => {
             setTimeout(() => {
-              context.commit('increment')
+              commit(mutationTypes.INCREMENT)
               resolve()
             }, 500)
-          }).then(() => context.commit('incrementStop'))
+          }).then(() => commit(mutationTypes.INCREMENT_STOP))
+          .then(()=>state.count)
         }
       },
       modules: {
@@ -74,14 +97,14 @@
             }
           },
           actions: {
-            incrementAsync(context) {
-              context.commit('incrementStart')
+            incrementAsync({commit}) {
+              commit(mutationTypes.INCREMENT_START)
               return new Promise(resolve => {
                 setTimeout(() => {
-                  context.commit('increment')
+                  commit(mutationTypes.INCREMENT)
                   resolve()
                 }, 500)
-              }).then(() => context.commit('incrementStop'))
+              }).then(() => commit(mutationTypes.INCREMENT_STOP))
             }
           }
         }
@@ -147,21 +170,21 @@
     class Child1 extends React.Component {
       constructor(props, context) {
         super(props, context)
-        this.handleClick = this.handleClick.bind(this)
-        this.handleClickAsync = this.handleClickAsync.bind(this)
+        this.handleInc = this.handleInc.bind(this)
+        this.handleIncAsync = this.handleIncAsync.bind(this)
       }
-      handleClick() {
-        store.commit('increment')
+      handleInc() {
+        this.props.onIncrement && this.props.onIncrement()
       }
-      handleClickAsync() {
-        store.dispatch('incrementAsync')
+      handleIncAsync() {
+        this.props.onIncrementAsync && this.props.onIncrementAsync().then(console.log)
       }
       render() {
         return (
           <div>
             I am a Child1, count is {this.props.count}
-            <button onClick={this.handleClick}>Test</button>
-            <button onClick={this.handleClickAsync}>Test async</button>
+            <button onClick={this.handleInc}>Test</button>
+            <button onClick={this.handleIncAsync}>Test async</button>
           </div>
         )
       }
@@ -172,14 +195,25 @@
     // ------------------------------------------------------------------------
     // PRESENTATIONAL COMPONENT
     // ------------------------------------------------------------------------
-    const connect = (mapStateToPropsFn) => (Component) => {
-      let passedProps = {}
+    const connect = (
+      mapStateToPropsFn,
+      mapMutationToPropsFn,
+      mapActionToPropsFn
+    ) => (Component) => {
       class PresentationalComponent extends Component {
         constructor(props, context) {
           super(props, context)
           this.store = props[storeKey] || context[storeKey]
           this.subscription = props[subscriptionKey] || context[subscriptionKey]
-          passedProps = mapStateToPropsFn(this.store.state, props)
+          this.passedProps = mapStateToPropsFn(this.store.state, props)
+          mapMutationToPropsFn && Object.assign(
+            this.passedProps,
+            mapMutationToPropsFn(this.store.commit, props)
+          )
+          mapActionToPropsFn && Object.assign(
+            this.passedProps,
+            mapActionToPropsFn(this.store.dispatch, props)
+          )
         }
 
         getChildContext() {
@@ -189,7 +223,7 @@
         }
 
         render() {
-          return React.createElement(Component, { ...passedProps })
+          return React.createElement(Component, { ...this.passedProps })
         }
       }
       PresentationalComponent.childContextTypes = {
@@ -209,12 +243,20 @@
     // ------------------------------------------------------------------------
 
 
-    const mapStateToProps = (state, ownProps) => {
-      return ({
-        count: state.count
-      })
-    }
-    const VisibleChild1 = connect(mapStateToProps)(Child1)
+    const mapStateToProps = (state, ownProps) => ({
+      count: state.count
+    })
+    const mapMutationToProps = (commit, ownProps) => ({
+      onIncrement: () => commit(mutations.increment())
+    })
+    const mapActionToProps = (dispatch, ownProps) => ({
+      onIncrementAsync: (val) => dispatch(actions.incrementAsync(val))
+    })
+    const VisibleChild1 = connect(
+      mapStateToProps,
+      mapMutationToProps,
+      mapActionToProps
+    )(Child1)
 
 
     class Main extends React.Component {
@@ -224,7 +266,7 @@
           count: store.state.count
         }
         store.subscribe((mutation, state) => {
-          if (mutation.type === 'increment') {
+          if (mutation.type === mutationTypes.INCREMENT) {
             this.setState({
               count: store.state.count
             })
