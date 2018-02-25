@@ -161,7 +161,7 @@
     const Provider = createProvider()
 
     // store.subscribe((mutation, state) => {
-    //   console.log(mutation, state)
+    //   console.log(mutation, {...state})
     // })
 
     // ------------------------------------------------------------------------
@@ -182,7 +182,7 @@
       render() {
         return (
           <div>
-            I am a Child1, count is {this.props.count}
+            I am a Child1, count is {this.props.count}, {this.props.myCount}
             <button onClick={this.handleInc}>Test</button>
             <button onClick={this.handleIncAsync}>Test async</button>
           </div>
@@ -205,15 +205,25 @@
           super(props, context)
           this.store = props[storeKey] || context[storeKey]
           this.subscription = props[subscriptionKey] || context[subscriptionKey]
-          this.passedProps = mapStateToPropsFn(this.store.state, props)
-          mapMutationToPropsFn && Object.assign(
-            this.passedProps,
-            mapMutationToPropsFn(this.store.commit, props)
+          this.mappedState = mapStateToPropsFn && mapStateToPropsFn(this.store.state, props)
+          this.state = Object.assign(
+            {},
+            this.mappedState,
+            mapMutationToPropsFn && mapMutationToPropsFn(this.store.commit, props),
+            mapActionToPropsFn && mapActionToPropsFn(this.store.dispatch, props)
           )
-          mapActionToPropsFn && Object.assign(
-            this.passedProps,
-            mapActionToPropsFn(this.store.dispatch, props)
-          )
+          const propsKeysArray = Object.keys(this.mappedState)
+          this.mappedState && store.subscribe((mutation, state) => {
+            const newMappedState = mapStateToPropsFn(state)
+            if(!(JSON.stringify(this.mappedState) === JSON.stringify(newMappedState))) {
+              this.mappedState = newMappedState
+              this.setState(mapStateToPropsFn(state))
+            }
+          })
+        }
+
+        componentDidUpdate() {
+          console.log('componentDidUpdate')
         }
 
         getChildContext() {
@@ -223,7 +233,7 @@
         }
 
         render() {
-          return React.createElement(Component, { ...this.passedProps })
+          return React.createElement(Component, this.state)
         }
       }
       PresentationalComponent.childContextTypes = {
@@ -244,7 +254,7 @@
 
 
     const mapStateToProps = (state, ownProps) => ({
-      count: state.count
+      myCount: state.count
     })
     const mapMutationToProps = (commit, ownProps) => ({
       onIncrement: () => commit(mutations.increment())
@@ -277,7 +287,7 @@
       render() {
         return (
           <div>
-            <Child1 count={this.state.count} />
+            <Child1 myCount={this.state.count} />
             <VisibleChild1 />
           </div>
         )
