@@ -64,7 +64,7 @@
         }
       },
       actions: {
-        [actionTypes.INCREMENT_ASYNC]({commit, state}, payload) {
+        [actionTypes.INCREMENT_ASYNC]({ commit, state }, payload) {
           commit(mutationTypes.INCREMENT_START)
           return new Promise(resolve => {
             setTimeout(() => {
@@ -72,7 +72,7 @@
               resolve()
             }, 500)
           }).then(() => commit(mutationTypes.INCREMENT_STOP))
-          .then(()=>state.count)
+            .then(() => state.count)
         }
       },
       modules: {
@@ -97,7 +97,7 @@
             }
           },
           actions: {
-            incrementAsync({commit}) {
+            incrementAsync({ commit }) {
               commit(mutationTypes.INCREMENT_START)
               return new Promise(resolve => {
                 setTimeout(() => {
@@ -182,7 +182,8 @@
       render() {
         return (
           <div>
-            I am a Child1, count is {this.props.count}, {this.props.myCount}
+            I am a Child1, count is {this.props.myCount},
+            greater than 2: {this.props.isGreaterThan2 ? 'yes' : 'no'}
             <button onClick={this.handleInc}>Test</button>
             <button onClick={this.handleIncAsync}>Test async</button>
           </div>
@@ -192,13 +193,53 @@
     // ------------------------------------------------------------------------
     // ------------------------------------------------------------------------
 
+
+    // ------------------------------------------------------------------------
+    // COMPARING OBJECTS
+    // ------------------------------------------------------------------------
+    const hasOwn = Object.prototype.hasOwnProperty
+
+    const is = (x, y) => {
+      if (x === y) {
+        return x !== 0 || y !== 0 || 1 / x === 1 / y
+      } else {
+        return x !== x && y !== y
+      }
+    }
+
+    const shallowEqual = (objA, objB) => {
+      if (is(objA, objB)) {
+        return true
+      }
+      if (typeof objA !== 'object' || objA === null ||
+        typeof objB !== 'object' || objB === null) {
+        return false
+      }
+      const keysA = Object.keys(objA)
+      const keysB = Object.keys(objB)
+      if (keysA.length !== keysB.length) {
+        return false
+      }
+      for (let i = 0; i < keysA.length; i++) {
+        if (!hasOwn.call(objB, keysA[i]) ||
+          !is(objA[keysA[i]], objB[keysA[i]])) {
+          return false
+        }
+      }
+      return true
+    }
+    // ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
+
+
     // ------------------------------------------------------------------------
     // PRESENTATIONAL COMPONENT
     // ------------------------------------------------------------------------
     const connect = (
       mapStateToPropsFn,
-      mapMutationToPropsFn,
-      mapActionToPropsFn
+      mapDispatchToPropsFn,
+      mapCommitToPropsFn,
+      mapGetterToPropsFn
     ) => (Component) => {
       class PresentationalComponent extends Component {
         constructor(props, context) {
@@ -206,18 +247,33 @@
           this.store = props[storeKey] || context[storeKey]
           this.subscription = props[subscriptionKey] || context[subscriptionKey]
           this.mappedState = mapStateToPropsFn && mapStateToPropsFn(this.store.state, props)
+          this.mappedGetters = mapGetterToPropsFn && mapGetterToPropsFn(this.store.getters, props)
           this.state = Object.assign(
             {},
             this.mappedState,
-            mapMutationToPropsFn && mapMutationToPropsFn(this.store.commit, props),
-            mapActionToPropsFn && mapActionToPropsFn(this.store.dispatch, props)
+            mapDispatchToPropsFn && mapDispatchToPropsFn(this.store.dispatch, props),
+            mapCommitToPropsFn && mapCommitToPropsFn(this.store.commit, props),
+            this.mappedGetters
           )
           const propsKeysArray = Object.keys(this.mappedState)
-          this.mappedState && store.subscribe((mutation, state) => {
+          this.mappedState && store.subscribe((mutation, state, aaa) => {
+            let newState = {}
+            // update state from store state
             const newMappedState = mapStateToPropsFn(state)
-            if(!(JSON.stringify(this.mappedState) === JSON.stringify(newMappedState))) {
+            if (!shallowEqual(this.mappedState, newMappedState)) {
               this.mappedState = newMappedState
-              this.setState(mapStateToPropsFn(state))
+              newState = { ...newState, ...this.mappedState }
+            }
+
+            // update state from store getters
+            const newMappedGetters = mapGetterToPropsFn(this.store.getters)
+            if (!shallowEqual(this.mappedGetters, newMappedGetters)) {
+              this.mappedGetters = newMappedGetters
+              newState = { ...newState, ...this.mappedGetters }
+            }
+
+            if (Object.keys(newState).length) {
+              this.setState(newState)
             }
           })
         }
@@ -256,39 +312,44 @@
     const mapStateToProps = (state, ownProps) => ({
       myCount: state.count
     })
-    const mapMutationToProps = (commit, ownProps) => ({
+    const mapDispatchToProps = (dispatch, ownProps) => ({
+      onIncrementAsync: (val) => dispatch(actions.incrementAsync(val))
+    })
+    const mapCommitToProps = (commit, ownProps) => ({
       onIncrement: () => commit(mutations.increment())
     })
-    const mapActionToProps = (dispatch, ownProps) => ({
-      onIncrementAsync: (val) => dispatch(actions.incrementAsync(val))
+    const mapGetterToProps = (getter, ownProps) => ({
+      isGreaterThan2: getter.countGreaterThan2
     })
     const VisibleChild1 = connect(
       mapStateToProps,
-      mapMutationToProps,
-      mapActionToProps
+      mapDispatchToProps,
+      mapCommitToProps,
+      mapGetterToProps
+    )(Child1)
+
+
+    const mapGetterToProp2 = (getter, ownProps) => ({
+      isGreaterThan2: getter.countGreaterThan2
+    })
+    const VisibleChild2 = connect(
+      () => ({}),
+      () => ({}),
+      () => ({}),
+      mapGetterToProps
     )(Child1)
 
 
     class Main extends React.Component {
       constructor(props, context) {
         super(props, context)
-        this.state = {
-          count: store.state.count
-        }
-        store.subscribe((mutation, state) => {
-          if (mutation.type === mutationTypes.INCREMENT) {
-            this.setState({
-              count: store.state.count
-            })
-          }
-        })
       }
 
       render() {
         return (
           <div>
-            <Child1 myCount={this.state.count} />
             <VisibleChild1 />
+            <VisibleChild2 />
           </div>
         )
       }
