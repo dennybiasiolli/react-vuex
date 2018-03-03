@@ -1,0 +1,26 @@
+{
+  "name": "react-vuex",
+  "version": "0.0.1",
+  "description": "React bindings for Vuex",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dennybiasiolli/react-vuex.git"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "vue",
+    "vuex"
+  ],
+  "author": "Denny Biasiolli <denny.biasiolli@gmail.com> (http://github.com/dennybiasiolli)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dennybiasiolli/react-vuex/issues"
+  },
+  "homepage": "https://github.com/dennybiasiolli/react-vuex#readme"
+}
