@@ -1,5 +1,5 @@
 import { store } from '../store'
-import { Main } from './Main.jsx'
+import { Main } from './Main'
 
 const { Provider } = ReactVuex
 

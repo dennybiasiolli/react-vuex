@@ -22,7 +22,8 @@ const config = {
   plugins: [
     nodeResolve(),
     babel({
-      exclude: '**/node_modules/**'
+      exclude: '**/node_modules/**',
+      plugins: ['external-helpers']
     }),
     replace({
       'process.env.NODE_ENV': JSON.stringify(env)

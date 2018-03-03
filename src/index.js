@@ -1,5 +1,5 @@
-import { connect } from './components/PresentationalComponent.jsx'
-import { Provider } from './components/Provider.jsx'
+import { connect } from './components/PresentationalComponent'
+import { Provider } from './components/Provider'
 
 export {
   connect, Provider
