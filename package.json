@@ -6,6 +6,8 @@
     "lib": "lib"
   },
   "scripts": {
+    "build": "mkdir -p build && babel src/index.js -o build/index.js",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
