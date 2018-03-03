@@ -9,8 +9,9 @@
     "build": "npm run build:commonjs && npm run build:es && npm run build:umd && npm run build:umd:min",
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
-    "build:umd": "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c -o dist/react-vuex.js",
-    "build:umd:min": "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c -o dist/react-vuex.min.js",
+    "build:umd": "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c build/rollup/rollup.config.js -o dist/react-vuex.js",
+    "build:umd:min": "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c build/rollup/rollup.config.js -o dist/react-vuex.min.js",
+    "build:umd:example": "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c build/rollup/rollup.test.config.js -o example/lib/example.js",
     "clean": "rimraf lib dist es coverage",
     "prepare": "npm run clean && npm run build"
   },
