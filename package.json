@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "vue": "^2.5.13",
     "vuex": "^3.0.1"
   }
