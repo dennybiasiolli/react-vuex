@@ -22,5 +22,15 @@
   "bugs": {
     "url": "https://github.com/dennybiasiolli/react-vuex/issues"
   },
-  "homepage": "https://github.com/dennybiasiolli/react-vuex#readme"
+  "homepage": "https://github.com/dennybiasiolli/react-vuex#readme",
+  "peerDependencies": {
+    "react": "^0.14.0 || ^15.0.0-0 || ^16.0.0-0",
+    "vue": "^2.0.0",
+    "vuex": "^3.0.0"
+  },
+  "devDependencies": {
+    "react": "^16.2.0",
+    "vue": "^2.5.13",
+    "vuex": "^3.0.1"
+  }
 }
