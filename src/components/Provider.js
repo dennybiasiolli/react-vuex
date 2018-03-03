@@ -1,3 +1,5 @@
+import React from 'react'
+import PropTypes from 'prop-types'
 import { STORE_KEY } from '../constants'
 
 export class Provider extends React.Component {

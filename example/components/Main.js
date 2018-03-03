@@ -1,6 +1,6 @@
 import mutations from '../mutations'
 import actions from '../actions'
-import { Child1 } from './Child1.jsx'
+import { Child1 } from './Child1'
 
 const { connect } = ReactVuex
 

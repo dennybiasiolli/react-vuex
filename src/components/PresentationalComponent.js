@@ -1,3 +1,7 @@
+import { Component, createElement } from 'react'
+import PropTypes from 'prop-types'
+import hoistStatics from 'hoist-non-react-statics'
+
 import { STORE_KEY } from '../constants'
 import { shallowEqual } from '../utils/shallowEqual'
 
@@ -6,7 +10,7 @@ export const connect = (
   mapDispatchToPropsFn,
   mapCommitToPropsFn,
   mapGetterToPropsFn
-) => (Component) => {
+) => (WrappedComponent) => {
   class PresentationalComponent extends Component {
     constructor(props, context) {
       super(props, context)
@@ -20,21 +24,22 @@ export const connect = (
         mapCommitToPropsFn && mapCommitToPropsFn(this.store.commit, props),
         this.mappedGetters
       )
-      const propsKeysArray = Object.keys(this.mappedState)
       this.mappedState && this.store.subscribe((mutation, state, aaa) => {
         let newState = {}
         // update state from store state
-        const newMappedState = mapStateToPropsFn(state)
+        const newMappedState = mapStateToPropsFn(state, this.props)
         if (!shallowEqual(this.mappedState, newMappedState)) {
           this.mappedState = newMappedState
           newState = Object.assign({}, newState, this.mappedState)
         }
 
-        // update state from store getters
-        const newMappedGetters = mapGetterToPropsFn(this.store.getters)
-        if (!shallowEqual(this.mappedGetters, newMappedGetters)) {
-          this.mappedGetters = newMappedGetters
-          newState = Object.assign({}, newState, this.mappedGetters)
+        // update state from store getters, if any
+        if (this.mappedGetters) {
+          const newMappedGetters = mapGetterToPropsFn(this.store.getters, this.props)
+          if (!shallowEqual(this.mappedGetters, newMappedGetters)) {
+            this.mappedGetters = newMappedGetters
+            newState = Object.assign({}, newState, this.mappedGetters)
+          }
         }
 
         if (Object.keys(newState).length) {
@@ -43,19 +48,20 @@ export const connect = (
       })
     }
 
-    componentDidUpdate() {
-      console.log('componentDidUpdate')
-    }
-
     render() {
-      return React.createElement(Component, Object.assign({}, this.props, this.state), this.props.children)
+      return createElement(WrappedComponent, Object.assign({}, this.props, this.state), this.props.children)
     }
   }
+  PresentationalComponent.WrappedComponent = WrappedComponent
   PresentationalComponent.contextTypes = {
     [STORE_KEY]: PropTypes.object,
   }
   PresentationalComponent.propTypes = {
     [STORE_KEY]: PropTypes.object,
   }
-  return PresentationalComponent
+  PresentationalComponent.displayName = WrappedComponent.displayName
+    || WrappedComponent.name
+    || 'Component'
+
+  return hoistStatics(PresentationalComponent, WrappedComponent)
 }
