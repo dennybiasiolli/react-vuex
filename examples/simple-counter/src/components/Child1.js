@@ -51,7 +51,7 @@ Child1.propTypes = {
   isGreaterThan2: PropTypes.bool,
   limitCount: PropTypes.number,
   myCount: PropTypes.number,
-  test: PropTypes.string,
+  test: PropTypes.number,
   onIncrement: PropTypes.func,
   onIncrementAsync: PropTypes.func,
 };
