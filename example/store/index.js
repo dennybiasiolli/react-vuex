@@ -1,80 +1,78 @@
-import mutations, {
-  INCREMENT, INCREMENT_START, INCREMENT_STOP
-} from '../mutations'
-import actions, {
-  INCREMENT_ASYNC
-} from '../actions'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import { INCREMENT, INCREMENT_START, INCREMENT_STOP } from '../mutations';
+import { INCREMENT_ASYNC } from '../actions';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-export const store = new Vuex.Store({
+export default new Vuex.Store({
   state: {
     count: 0,
-    isIncrementing: false
+    isIncrementing: false,
   },
   getters: {
-    countGreaterThan2: (state, getters) => state.count > 2
+    countGreaterThan2: (state, getters) => state.count > 2,
   },
   mutations: {
     [INCREMENT](state) {
-      state.count++
+      state.count += 1;
     },
     [INCREMENT_START](state) {
-      state.isIncrementing = true
+      state.isIncrementing = true;
     },
     [INCREMENT_STOP](state) {
-      state.isIncrementing = false
-    }
+      state.isIncrementing = false;
+    },
   },
   actions: {
     [INCREMENT_ASYNC]({ commit, state }, payload) {
-      commit(INCREMENT_START)
-      return new Promise(resolve => {
+      commit(INCREMENT_START);
+      return new Promise((resolve) => {
         setTimeout(() => {
-          commit(INCREMENT)
-          resolve()
-        }, 500)
+          commit(INCREMENT);
+          resolve();
+        }, 500);
       }).then(() => commit(INCREMENT_STOP))
-        .then(() => state.count)
-    }
+        .then(() => state.count);
+    },
   },
   modules: {
     mod1: {
       namespaced: true,
       state: {
         count: 1000,
-        isIncrementing: false
+        isIncrementing: false,
       },
       getters: {
-        countGreaterThan1002: (state, getters) => state.count > 1002
+        countGreaterThan1002: (state, getters) => state.count > 1002,
       },
       mutations: {
         increment(state) {
-          state.count++
+          state.count += 1;
         },
         incrementStart(state) {
-          state.isIncrementing = true
+          state.isIncrementing = true;
         },
         incrementStop(state) {
-          state.isIncrementing = false
-        }
+          state.isIncrementing = false;
+        },
       },
       actions: {
         incrementAsync({ commit, state }) {
-          commit('incrementStart')
-          return new Promise(resolve => {
+          commit('incrementStart');
+          return new Promise((resolve) => {
             setTimeout(() => {
-              commit('increment')
-              resolve()
-            }, 500)
+              commit('increment');
+              resolve();
+            }, 500);
           }).then(() => commit('incrementStop'))
-            .then(() => state.count)
-        }
-      }
-    }
-  }
-})
+            .then(() => state.count);
+        },
+      },
+    },
+  },
+});
 
-// store.subscribe((mutation, state) => {
+// store.subscribe((mutation, state) => {
 //   console.log(mutation, {...state})
 // })
