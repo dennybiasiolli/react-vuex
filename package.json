@@ -12,7 +12,8 @@
     "build:umd:min": "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c build/rollup/rollup.config.js -o dist/react-vuex.min.js",
     "build:umd:example": "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c build/rollup/rollup.test.config.js -o example/lib/example.js",
     "clean": "rimraf lib dist es coverage",
-    "prepare": "npm run clean && npm run build"
+    "prepare": "npm run clean && npm run build",
+    "test-lint": "eslint src"
   },
   "repository": {
     "type": "git",
@@ -47,6 +48,11 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "cross-env": "^5.1.3",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
     "hoist-non-react-statics": "^2.5.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
