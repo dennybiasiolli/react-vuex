@@ -10,7 +10,6 @@
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
     "build:umd": "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c build/rollup/rollup.config.js -o dist/react-vuex.js",
     "build:umd:min": "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c build/rollup/rollup.config.js -o dist/react-vuex.min.js",
-    "build:umd:example": "cross-env BABEL_ENV=rollup NODE_ENV=development rollup -c build/rollup/rollup.test.config.js -o example/lib/example.js",
     "clean": "rimraf lib dist es coverage",
     "prepare": "npm run clean && npm run build",
     "test-lint": "eslint src"
