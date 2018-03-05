@@ -17,7 +17,11 @@ This assumes that you’re using [npm](http://npmjs.com/) package manager with a
 
 ## Documentation
 
-Coming soon, take a look at the [examples](https://github.com/dennybiasiolli/react-vuex/tree/master/examples) section of this repo.
+To look at some example projects, take a look at the [examples](https://github.com/dennybiasiolli/react-vuex/tree/master/examples) section of this repo.
+
+- [API](docs/api.md#api)
+  - [`<Provider store>`](docs/api.md#provider-store)
+  - [`connect([mapStateToProps], [mapDispatchToProps], [mapCommitToProps], [mapGetterToProps])(Component)`](docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mapcommittoprops-mapgettertoprops)
 
 
 ## License
