@@ -1,6 +1,6 @@
 {
   "name": "react-vuex",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "React bindings for Vuex",
   "main": "./lib/index.js",
   "module": "es/index.js",
