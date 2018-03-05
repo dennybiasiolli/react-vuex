@@ -17,7 +17,7 @@ This assumes that you’re using [npm](http://npmjs.com/) package manager with a
 
 ## Documentation
 
-Coming soon, take a look at the [example](https://github.com/dennybiasiolli/react-vuex/tree/master/example) section of this repo.
+Coming soon, take a look at the [examples](https://github.com/dennybiasiolli/react-vuex/tree/master/examples) section of this repo.
 
 
 ## License
