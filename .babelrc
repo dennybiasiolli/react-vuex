@@ -7,5 +7,15 @@
       }
     ],
     "react"
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "env"
+        ],
+        "react"
+      ]
+    }
+  }
 }
