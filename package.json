@@ -12,6 +12,7 @@
     "build:umd:min": "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c build/rollup/rollup.config.js -o dist/react-vuex.min.js",
     "clean": "rimraf lib dist es coverage",
     "prepare": "npm run clean && npm run build",
+    "test": "jest --config=test/jest.config.json",
     "test-lint": "eslint src"
   },
   "repository": {
