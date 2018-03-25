@@ -21,10 +21,7 @@ export default class Provider extends React.Component {
 
 Provider.propTypes = {
   store: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.node.isRequired,
 };
 Provider.childContextTypes = {
   [STORE_KEY]: PropTypes.object.isRequired,
