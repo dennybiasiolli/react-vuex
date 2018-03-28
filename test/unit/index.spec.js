@@ -1,5 +1,5 @@
 import { connect, Provider } from '@/index.js';
-import realConnect from '@/components/PresentationalComponent';
+import realConnect from '@/components/connect';
 import realProvider from '@/components/Provider';
 
 
