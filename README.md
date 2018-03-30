@@ -1,11 +1,11 @@
-[![Build Status](https://travis-ci.org/dennybiasiolli/react-vuex.svg?branch=master)](https://travis-ci.org/dennybiasiolli/react-vuex)
-[![CircleCI](https://circleci.com/gh/dennybiasiolli/react-vuex/tree/master.svg?style=svg)](https://circleci.com/gh/dennybiasiolli/react-vuex/tree/master)
-[![codecov](https://codecov.io/gh/dennybiasiolli/react-vuex/branch/master/graph/badge.svg)](https://codecov.io/gh/dennybiasiolli/react-vuex)
-
 # react-vuex
 
 React bindings for [Vuex](https://vuex.vuejs.org/)
 inspired by [`react-redux`](https://github.com/reactjs/react-redux) project.
+
+[![Build Status](https://travis-ci.org/dennybiasiolli/react-vuex.svg?branch=master)](https://travis-ci.org/dennybiasiolli/react-vuex)
+[![CircleCI](https://circleci.com/gh/dennybiasiolli/react-vuex/tree/master.svg?style=svg)](https://circleci.com/gh/dennybiasiolli/react-vuex/tree/master)
+[![codecov](https://codecov.io/gh/dennybiasiolli/react-vuex/branch/master/graph/badge.svg)](https://codecov.io/gh/dennybiasiolli/react-vuex)
 
 
 ## Installation
