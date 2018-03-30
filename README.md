@@ -252,3 +252,8 @@ To look at some example projects, take a look at the [examples](https://github.c
 ## License
 
 MIT
+
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/dennybiasiolli/react-vuex/badge.svg?style=beer-square)](https://beerpay.io/dennybiasiolli/react-vuex)  [![Beerpay](https://beerpay.io/dennybiasiolli/react-vuex/make-wish.svg?style=flat-square)](https://beerpay.io/dennybiasiolli/react-vuex?focus=wish)
