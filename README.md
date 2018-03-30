@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/dennybiasiolli/react-vuex/badge.svg?branch=master)](https://coveralls.io/github/dennybiasiolli/react-vuex?branch=master)
+
 # react-vuex
 
 React bindings for [Vuex](https://vuex.vuejs.org/)
