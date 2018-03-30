@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`connect should work with real store mutations 1`] = `
+<div>
+  I am a Child1
+  , count is 
+  12, 
+  greater than 
+  2
+  : 
+  no
+</div>
+`;
+
+exports[`connect should work with real store mutations and getters 1`] = `
+<div>
+  I am a Child1
+  , count is 
+  0, 
+  greater than 
+  2
+  : 
+  no
+</div>
+`;
+
+exports[`connect should work with real store mutations and getters 2`] = `
+<div>
+  I am a Child1
+  , count is 
+  3, 
+  greater than 
+  2
+  : 
+  yes
+</div>
+`;
+
+exports[`connect should works without mapping 1`] = `
+<div>
+  I am a Child1
+  , count is 
+  0, 
+  greater than 
+  2
+  : 
+  no
+</div>
+`;
+
+exports[`connect should works without store 1`] = `
+<div>
+  I am a Child1
+  , count is 
+  0, 
+  greater than 
+  2
+  : 
+  no
+</div>
+`;
