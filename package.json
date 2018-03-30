@@ -12,6 +12,7 @@
     "build:umd:min": "cross-env BABEL_ENV=rollup NODE_ENV=production rollup -c build/rollup/rollup.config.js -o dist/react-vuex.min.js",
     "clean": "rimraf lib dist es coverage",
     "prepare": "npm run clean && npm run build",
+    "test": "jest --config=test/jest.config.json",
     "test-lint": "eslint src"
   },
   "repository": {
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-jest": "^22.4.3",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -56,8 +58,11 @@
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
+    "jest": "^22.4.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-test-renderer": "^16.2.0",
+    "regenerator-runtime": "^0.11.1",
     "rimraf": "^2.6.2",
     "rollup": "^0.57.1",
     "rollup-plugin-babel": "^3.0.3",

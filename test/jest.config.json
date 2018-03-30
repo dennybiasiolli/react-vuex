@@ -1,0 +1,17 @@
+{
+  "collectCoverage": true,
+  "collectCoverageFrom": [
+    "<rootDir>/src/**/*.*"
+  ],
+  "coveragePathIgnorePatterns": [
+    "<rootDir>/src/index.js",
+    "<rootDir>/node_modules/"
+  ],
+  "moduleNameMapper": {
+    "@/(.*)$": "<rootDir>/src/$1"
+  },
+  "rootDir": "..",
+  "testMatch": [
+    "**/test/unit/**/*.js"
+  ]
+}
