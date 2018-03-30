@@ -1,11 +1,14 @@
-[![Build Status](https://travis-ci.org/dennybiasiolli/react-vuex.svg?branch=master)](https://travis-ci.org/dennybiasiolli/react-vuex)
-[![CircleCI](https://circleci.com/gh/dennybiasiolli/react-vuex/tree/master.svg?style=svg)](https://circleci.com/gh/dennybiasiolli/react-vuex/tree/master)
-[![codecov](https://codecov.io/gh/dennybiasiolli/react-vuex/branch/master/graph/badge.svg)](https://codecov.io/gh/dennybiasiolli/react-vuex)
-
 # react-vuex
 
 React bindings for [Vuex](https://vuex.vuejs.org/)
 inspired by [`react-redux`](https://github.com/reactjs/react-redux) project.
+
+[![Build Status](https://travis-ci.org/dennybiasiolli/react-vuex.svg?branch=master)](https://travis-ci.org/dennybiasiolli/react-vuex)
+[![CircleCI](https://circleci.com/gh/dennybiasiolli/react-vuex/tree/master.svg?style=svg)](https://circleci.com/gh/dennybiasiolli/react-vuex/tree/master)
+[![codecov](https://codecov.io/gh/dennybiasiolli/react-vuex/branch/master/graph/badge.svg)](https://codecov.io/gh/dennybiasiolli/react-vuex)
+
+[![Beerpay](https://beerpay.io/dennybiasiolli/react-vuex/badge.svg)](https://beerpay.io/dennybiasiolli/react-vuex)
+[![Donate with Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/~36404/donate)
 
 
 ## Installation
@@ -253,7 +256,9 @@ To look at some example projects, take a look at the [examples](https://github.c
 
 MIT
 
-## Support on Beerpay
+## Support on Beerpay or Liberapay
 Hey dude! Help me out for a couple of :beers:!
 
 [![Beerpay](https://beerpay.io/dennybiasiolli/react-vuex/badge.svg?style=beer-square)](https://beerpay.io/dennybiasiolli/react-vuex)  [![Beerpay](https://beerpay.io/dennybiasiolli/react-vuex/make-wish.svg?style=flat-square)](https://beerpay.io/dennybiasiolli/react-vuex?focus=wish)
+
+[![Donate with Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/~36404/donate)
