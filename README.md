@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/dennybiasiolli/react-vuex.svg?branch=master)](https://travis-ci.org/dennybiasiolli/react-vuex)
+[![CircleCI](https://circleci.com/gh/dennybiasiolli/react-vuex/tree/master.svg?style=svg)](https://circleci.com/gh/dennybiasiolli/react-vuex/tree/master)
+[![Coverage Status](https://coveralls.io/repos/github/dennybiasiolli/react-vuex/badge.svg?branch=master)](https://coveralls.io/github/dennybiasiolli/react-vuex?branch=master)
+
 # react-vuex
 
 React bindings for [Vuex](https://vuex.vuejs.org/)
