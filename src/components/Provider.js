@@ -15,7 +15,9 @@ export default class Provider extends React.Component {
   }
 
   render() {
+    /* eslint-disable react/destructuring-assignment */
     return React.Children.only(this.props.children);
+    /* eslint-enable react/destructuring-assignment */
   }
 }
 
@@ -24,5 +26,7 @@ Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 Provider.childContextTypes = {
+  /* eslint-disable react/forbid-prop-types */
   [STORE_KEY]: PropTypes.object.isRequired,
+  /* eslint-enable react/forbid-prop-types */
 };
