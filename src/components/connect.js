@@ -54,13 +54,15 @@ export default (
       return createElement(
         WrappedComponent,
         Object.assign({}, this.props, this.state),
-        this.props.children,
+        this.props.children, // eslint-disable-line react/destructuring-assignment
       );
     }
   }
   PresentationalComponent.WrappedComponent = WrappedComponent;
   PresentationalComponent.contextTypes = {
+    /* eslint-disable react/forbid-prop-types */
     [STORE_KEY]: PropTypes.object,
+    /* eslint-enable react/forbid-prop-types */
   };
   PresentationalComponent.propTypes = {
     /* eslint-disable react/require-default-props */
