@@ -43,8 +43,8 @@
     "vuex": "^3.0.0"
   },
   "dependencies": {
-    "hoist-non-react-statics": "^2.5.0",
-    "prop-types": "^15.6.1"
+    "hoist-non-react-statics": "^3.0.1",
+    "prop-types": "^15.6.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
