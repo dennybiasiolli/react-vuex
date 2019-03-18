@@ -3,19 +3,25 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
-    "react-scripts": "^1.1.5"
+    "react-scripts": "^2.1.8",
+    "react-vuex": "^0.2.0"
   },
   "dependencies": {
-    "prop-types": "^15.6.2",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-vuex": "0.0.2",
-    "vue": "^2.5.21",
-    "vuex": "^3.0.1"
+    "prop-types": "^15.7.2",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "vue": "^2.6.9",
+    "vuex": "^3.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
