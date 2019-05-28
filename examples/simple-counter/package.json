@@ -3,15 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
-    "react-scripts": "^2.1.8",
-    "react-vuex": "^0.2.0"
+    "react-scripts": "^3.0.1"
   },
   "dependencies": {
     "prop-types": "^15.7.2",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "vue": "^2.6.9",
-    "vuex": "^3.1.0"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-vuex": "^0.3.0",
+    "vue": "^2.6.10",
+    "vuex": "^3.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
