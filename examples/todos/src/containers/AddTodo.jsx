@@ -3,29 +3,25 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-vuex'
 import { addTodo } from '../actions'
 
-class TodoForm extends React.Component {
-  render() {
-    let input
-    return (
-      <div>
-        <form onSubmit={e => {
-          e.preventDefault()
-          if (!input.value.trim()) {
-            return
-          }
-          this.props.onAddTodo(input.value)
-          input.value = ''
-        }}>
-          <input ref={node => {
-            input = node
-          }} />
-          <button type="submit">
-            Add Todo
-          </button>
-        </form>
-      </div>
-    )
-  }
+const TodoForm = ({ onAddTodo }) => {
+  const input = React.useRef(null)
+  return (
+    <div>
+      <form onSubmit={e => {
+        e.preventDefault()
+        if (!input.current.value.trim()) {
+          return
+        }
+        onAddTodo(input.current.value)
+        input.current.value = ''
+      }}>
+        <input ref={input} />
+        <button type="submit">
+          Add Todo
+        </button>
+      </form>
+    </div>
+  )
 }
 TodoForm.propTypes = {
   onAddTodo: PropTypes.func.isRequired

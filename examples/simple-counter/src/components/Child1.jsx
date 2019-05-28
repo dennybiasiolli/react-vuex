@@ -1,40 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class Child1 extends React.PureComponent {
-  constructor(props, context) {
-    super(props, context);
-    this.handleInc = this.handleInc.bind(this);
-    this.handleIncAsync = this.handleIncAsync.bind(this);
-  }
-  handleInc() {
-    if (this.props.onIncrement) {
-      this.props.onIncrement();
+
+const Child1 = ({
+  test, myCount, limitCount, isGreaterThan2, onIncrement, onIncrementAsync,
+  children,
+}) => {
+  function handleInc() {
+    if (onIncrement) {
+      onIncrement();
     }
   }
-  handleIncAsync() {
-    if (this.props.onIncrementAsync) {
-      this.props.onIncrementAsync().then(console.log);
+
+  function handleIncAsync() {
+    if (onIncrementAsync) {
+      onIncrementAsync().then(console.log);
     }
   }
-  render() {
-    return (
-      <div>
-        I am a Child1
-        {this.props.test && ` with props test = ${this.props.test}`},
-        count is {this.props.myCount !== undefined && `${this.props.myCount}, `}
-        greater than {this.props.limitCount || 2}: {this.props.isGreaterThan2 ? 'yes' : 'no'}
-        {this.props.onIncrement &&
-          <button onClick={this.handleInc}>Test</button>
-        }
-        {this.props.onIncrementAsync &&
-          <button onClick={this.handleIncAsync}>Test async</button>
-        }
-        {this.props.children}
-      </div>
-    );
-  }
-}
+
+  return (
+    <div>
+      I am a Child1
+      {test && ` with props test = ${test}`}
+      , count is&nbsp;
+      {myCount !== undefined && `${myCount}, `}
+      greater than&nbsp;
+      {limitCount || 2}
+      :&nbsp;
+      {isGreaterThan2 ? 'yes' : 'no'}
+      {onIncrement
+        && <button type="button" onClick={handleInc}>Test</button>
+      }
+      {onIncrementAsync
+        && <button type="button" onClick={handleIncAsync}>Test async</button>
+      }
+      {children}
+    </div>
+  );
+};
 
 Child1.defaultProps = {
   children: undefined,
@@ -55,3 +58,5 @@ Child1.propTypes = {
   onIncrement: PropTypes.func,
   onIncrementAsync: PropTypes.func,
 };
+
+export default Child1;
