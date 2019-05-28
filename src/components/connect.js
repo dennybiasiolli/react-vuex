@@ -17,6 +17,10 @@ export default (
       this.store = props[STORE_KEY] || context[STORE_KEY];
       this.mappedState = mapStateToPropsFn && mapStateToPropsFn(this.store.state, props);
       this.mappedGetters = mapGetterToPropsFn && mapGetterToPropsFn(this.store.getters, props);
+
+      // will be used to unsubscribe from store changes when the component unmounts
+      this.unsubscribeFn = null;
+
       this.state = Object.assign(
         {},
         this.mappedState,
@@ -24,8 +28,11 @@ export default (
         mapCommitToPropsFn && mapCommitToPropsFn(this.store.commit, props),
         this.mappedGetters,
       );
+    }
+
+    componentDidMount() {
       if (this.mappedState) {
-        this.store.subscribe((mutation, state) => {
+        this.unsubscribeFn = this.store.subscribe((mutation, state) => {
           let newState = {};
           // update state from store state
           const newMappedState = mapStateToPropsFn(state, this.props);
@@ -47,6 +54,12 @@ export default (
             this.setState(newState);
           }
         });
+      }
+    }
+
+    componentWillUnmount() {
+      if (typeof this.unsubscribeFn === 'function') {
+        this.unsubscribeFn();
       }
     }
 
