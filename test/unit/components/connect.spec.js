@@ -14,7 +14,7 @@ describe('connect', () => {
     state: {
       count: 12,
     },
-    subscribe: jest.fn(),
+    subscribe: jest.fn().mockReturnValue('foo'),
     getters: 'getters',
     dispatch: 'dispatch',
     commit: 'commit',
@@ -105,6 +105,9 @@ describe('connect', () => {
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
     expect(store.subscribe).not.toHaveBeenCalled();
+
+    expect(instance.unsubscribeFn).toBeNull();
+    component.unmount();
   });
 
   test('should works without mapping', () => {
@@ -124,6 +127,9 @@ describe('connect', () => {
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
     expect(store.subscribe).not.toHaveBeenCalled();
+
+    expect(instance.unsubscribeFn).toBeNull();
+    component.unmount();
   });
 
   test('should works calling mapStateToPropsFn', () => {
@@ -143,6 +149,9 @@ describe('connect', () => {
     expect(instance.state).toEqual({});
     expect(mapStateToPropsFn).toHaveBeenCalledWith(store.state, instance.props);
     expect(store.subscribe).not.toHaveBeenCalled();
+
+    expect(instance.unsubscribeFn).toBeNull();
+    component.unmount();
   });
 
   test('should works calling mapGetterToPropsFn', () => {
@@ -162,6 +171,9 @@ describe('connect', () => {
     expect(instance.state).toEqual({});
     expect(mapGetterToPropsFn).toHaveBeenCalledWith(store.getters, instance.props);
     expect(store.subscribe).not.toHaveBeenCalled();
+
+    expect(instance.unsubscribeFn).toBeNull();
+    component.unmount();
   });
 
   test('should works calling mapDispatchToPropsFn', () => {
@@ -181,6 +193,9 @@ describe('connect', () => {
     expect(instance.state).toEqual({});
     expect(mapDispatchToPropsFn).toHaveBeenCalledWith(store.dispatch, instance.props);
     expect(store.subscribe).not.toHaveBeenCalled();
+
+    expect(instance.unsubscribeFn).toBeNull();
+    component.unmount();
   });
 
   test('should works calling mapCommitToPropsFn', () => {
@@ -200,6 +215,9 @@ describe('connect', () => {
     expect(instance.state).toEqual({});
     expect(mapCommitToPropsFn).toHaveBeenCalledWith(store.commit, instance.props);
     expect(store.subscribe).not.toHaveBeenCalled();
+
+    expect(instance.unsubscribeFn).toBeNull();
+    component.unmount();
   });
 
   test('should subscribe to the store if has a mappedState', () => {
@@ -219,6 +237,11 @@ describe('connect', () => {
     expect(instance.state).toEqual({});
     expect(mapStateToPropsFn).toHaveBeenCalledWith(store.state, instance.props);
     expect(store.subscribe).toHaveBeenCalled();
+
+    expect(instance.unsubscribeFn).toBe('foo');
+    instance.unsubscribeFn = jest.fn();
+    component.unmount();
+    expect(instance.unsubscribeFn).toHaveBeenCalledWith();
   });
 
   test('should work with real store mutations', () => {
@@ -259,6 +282,14 @@ describe('connect', () => {
     store.commit('inc');
     expect(instance.state.myCount).toBe(13);
     expect(instance.state.myCount2).toBe(25);
+
+    jest.spyOn(console, 'error');
+    expect(typeof instance.unsubscribeFn).toBe('function');
+    component.unmount();
+    store.commit('inc');
+    expect(console.error).not.toHaveBeenCalled();
+
+    console.error.mockRestore();
   });
 
   test('should work with real store mutations and getters', () => {
@@ -317,5 +348,13 @@ describe('connect', () => {
     expect(instance.state.isGreaterThan2).toBeDefined();
     tree = component.toJSON();
     expect(tree).toMatchSnapshot();
+
+    jest.spyOn(console, 'error');
+    expect(typeof instance.unsubscribeFn).toBe('function');
+    component.unmount();
+    store.commit('inc');
+    expect(console.error).not.toHaveBeenCalled();
+
+    console.error.mockRestore();
   });
 });
