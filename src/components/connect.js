@@ -28,9 +28,7 @@ export default (
         mapCommitToPropsFn && mapCommitToPropsFn(this.store.commit, props),
         this.mappedGetters,
       );
-    }
 
-    componentDidMount() {
       if (this.mappedState) {
         this.unsubscribeFn = this.store.subscribe((mutation, state) => {
           let newState = {};
