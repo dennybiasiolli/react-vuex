@@ -357,4 +357,64 @@ describe('connect', () => {
 
     console.error.mockRestore();
   });
+
+  const strTest = 'component should receive the change if vuex store is updated'
+    + ' between constructor and componentDidMount';
+  test(strTest, () => {
+    console.log(strTest);
+    const TestContainer = getTestContainer(
+      (state, ownProps) => ({
+        myCount: state.count,
+        myCount2: state.count + ownProps.count,
+      }),
+      null,
+      null,
+      getter => ({
+        isGreaterThan2: getter.countGreaterThan2,
+      }),
+      TestComponent,
+    );
+    const store = new Vuex.Store({
+      state: {
+        count: 0,
+      },
+      getters: {
+        countGreaterThan2: state => state.count > 2,
+      },
+      mutations: {
+        inc(state) {
+          state.count += 1; // eslint-disable-line no-param-reassign
+        },
+        foo() { },
+      },
+    });
+
+    // mocking componentDidMount just for the first lifecycle
+    if (!TestContainer.prototype.componentDidMount) {
+      TestContainer.prototype.componentDidMount = jest.fn();
+    }
+    const mock = jest.spyOn(TestContainer.prototype, 'componentDidMount')
+      .mockImplementation(() => { });
+
+    store.commit('inc'); // incrementing store.state.count
+
+    // creating the component with `componentDidMount` mocked so the real
+    // `componentDidMount` it's not called during the lifecycle
+    const component = renderer.create((
+      <TestContainer $store={store} count={12} />
+    ));
+    const instance = component.getInstance();
+
+    expect(instance.state.myCount).toBe(store.state.count);
+    store.commit('inc'); // incrementing store.state.count
+    expect(instance.state.myCount).toBe(store.state.count);
+
+    // restoring componentDidMount mock and calling it
+    mock.mockRestore();
+    instance.componentDidMount();
+
+    expect(instance.state.myCount).toBe(store.state.count);
+    store.commit('inc'); // incrementing store.state.count
+    expect(instance.state.myCount).toBe(store.state.count);
+  });
 });
