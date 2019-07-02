@@ -9,7 +9,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-vuex": "^0.3.0",
+    "react-vuex": "^0.3.1",
     "vue": "^2.6.10",
     "vuex": "^3.1.1"
   },
