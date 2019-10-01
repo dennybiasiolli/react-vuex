@@ -21,13 +21,13 @@ export default (
       // will be used to unsubscribe from store changes when the component unmounts
       this.unsubscribeFn = null;
 
-      this.state = Object.assign(
-        {},
-        this.mappedState,
-        mapDispatchToPropsFn && mapDispatchToPropsFn(this.store.dispatch, props),
-        mapCommitToPropsFn && mapCommitToPropsFn(this.store.commit, props),
-        this.mappedGetters,
-      );
+      this.state = {
+
+        ...this.mappedState,
+        ...mapDispatchToPropsFn && mapDispatchToPropsFn(this.store.dispatch, props),
+        ...mapCommitToPropsFn && mapCommitToPropsFn(this.store.commit, props),
+        ...this.mappedGetters,
+      };
 
       if (this.mappedState) {
         this.unsubscribeFn = this.store.subscribe((mutation, state) => {
@@ -36,7 +36,7 @@ export default (
           const newMappedState = mapStateToPropsFn(state, this.props);
           if (!shallowEqual(this.mappedState, newMappedState)) {
             this.mappedState = newMappedState;
-            newState = Object.assign({}, newState, this.mappedState);
+            newState = { ...newState, ...this.mappedState };
           }
 
           // update state from store getters, if any
@@ -44,7 +44,7 @@ export default (
             const newMappedGetters = mapGetterToPropsFn(this.store.getters, this.props);
             if (!shallowEqual(this.mappedGetters, newMappedGetters)) {
               this.mappedGetters = newMappedGetters;
-              newState = Object.assign({}, newState, this.mappedGetters);
+              newState = { ...newState, ...this.mappedGetters };
             }
           }
 
@@ -64,7 +64,7 @@ export default (
     render() {
       return createElement(
         WrappedComponent,
-        Object.assign({}, this.props, this.state),
+        { ...this.props, ...this.state },
         this.props.children, // eslint-disable-line react/destructuring-assignment
       );
     }
