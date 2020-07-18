@@ -361,7 +361,6 @@ describe('connect', () => {
   const strTest = 'component should receive the change if vuex store is updated'
     + ' between constructor and componentDidMount';
   test(strTest, () => {
-    console.log(strTest);
     const TestContainer = getTestContainer(
       (state, ownProps) => ({
         myCount: state.count,
