@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 const Child1 = ({
   test, myCount, limitCount, isGreaterThan2, onIncrement, onIncrementAsync,
   children,
@@ -14,6 +13,7 @@ const Child1 = ({
 
   function handleIncAsync() {
     if (onIncrementAsync) {
+      // eslint-disable-next-line no-console
       onIncrementAsync().then(console.log);
     }
   }
@@ -29,11 +29,9 @@ const Child1 = ({
       :&nbsp;
       {isGreaterThan2 ? 'yes' : 'no'}
       {onIncrement
-        && <button type="button" onClick={handleInc}>Test</button>
-      }
+        && <button type="button" onClick={handleInc}>Test</button>}
       {onIncrementAsync
-        && <button type="button" onClick={handleIncAsync}>Test async</button>
-      }
+        && <button type="button" onClick={handleIncAsync}>Test async</button>}
       {children}
     </div>
   );

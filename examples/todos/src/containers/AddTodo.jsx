@@ -1,39 +1,40 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-vuex'
-import { addTodo } from '../actions'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-vuex';
+import { addTodo } from '../actions';
 
 const TodoForm = ({ onAddTodo }) => {
-  const input = React.useRef(null)
+  const input = React.useRef(null);
   return (
     <div>
-      <form onSubmit={e => {
-        e.preventDefault()
+      <form onSubmit={(e) => {
+        e.preventDefault();
         if (!input.current.value.trim()) {
-          return
+          return;
         }
-        onAddTodo(input.current.value)
-        input.current.value = ''
-      }}>
+        onAddTodo(input.current.value);
+        input.current.value = '';
+      }}
+      >
         <input ref={input} />
         <button type="submit">
           Add Todo
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 TodoForm.propTypes = {
-  onAddTodo: PropTypes.func.isRequired
-}
+  onAddTodo: PropTypes.func.isRequired,
+};
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  onAddTodo: (value) => dispatch(addTodo(value))
-})
+const mapDispatchToProps = (dispatch/* , ownProps */) => ({
+  onAddTodo: (value) => dispatch(addTodo(value)),
+});
 
 const AddTodo = connect(
   () => { },
-  mapDispatchToProps
-)(TodoForm)
+  mapDispatchToProps,
+)(TodoForm);
 
-export default AddTodo
+export default AddTodo;

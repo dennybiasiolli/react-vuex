@@ -3,16 +3,16 @@ import Child1 from '../components/Child1';
 import mutations from '../mutations';
 import actions from '../actions';
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state/* , ownProps */) => ({
   myCount: state.count,
 });
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  onIncrementAsync: val => dispatch(actions.incrementAsync(val)),
+const mapDispatchToProps = (dispatch/* , ownProps */) => ({
+  onIncrementAsync: (val) => dispatch(actions.incrementAsync(val)),
 });
-const mapCommitToProps = (commit, ownProps) => ({
+const mapCommitToProps = (commit/* , ownProps */) => ({
   onIncrement: () => commit(mutations.increment()),
 });
-const mapGetterToProps = (getter, ownProps) => ({
+const mapGetterToProps = (getter/* , ownProps */) => ({
   isGreaterThan2: getter.countGreaterThan2,
 });
 
