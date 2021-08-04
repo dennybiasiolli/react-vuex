@@ -1,7 +1,7 @@
 import { connect } from 'react-vuex';
 import Child1 from '../components/Child1';
 
-const mapGetterToProps2 = (getter, ownProps) => ({
+const mapGetterToProps2 = (getter/* , ownProps */) => ({
   isGreaterThan2: getter.countGreaterThan2,
 });
 

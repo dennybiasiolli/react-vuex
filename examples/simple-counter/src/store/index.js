@@ -11,21 +11,24 @@ export default new Vuex.Store({
     isIncrementing: false,
   },
   getters: {
-    countGreaterThan2: (state, getters) => state.count > 2,
+    countGreaterThan2: (state/* , getters */) => state.count > 2,
   },
   mutations: {
     [INCREMENT](state) {
+      // eslint-disable-next-line no-param-reassign
       state.count += 1;
     },
     [INCREMENT_START](state) {
+      // eslint-disable-next-line no-param-reassign
       state.isIncrementing = true;
     },
     [INCREMENT_STOP](state) {
+      // eslint-disable-next-line no-param-reassign
       state.isIncrementing = false;
     },
   },
   actions: {
-    [INCREMENT_ASYNC]({ commit, state }, payload) {
+    [INCREMENT_ASYNC]({ commit, state }/* , payload */) {
       commit(INCREMENT_START);
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -44,16 +47,19 @@ export default new Vuex.Store({
         isIncrementing: false,
       },
       getters: {
-        countGreaterThan1002: (state, getters) => state.count > 1002,
+        countGreaterThan1002: (state/* , getters */) => state.count > 1002,
       },
       mutations: {
         increment(state) {
+          // eslint-disable-next-line no-param-reassign
           state.count += 1;
         },
         incrementStart(state) {
+          // eslint-disable-next-line no-param-reassign
           state.isIncrementing = true;
         },
         incrementStop(state) {
+          // eslint-disable-next-line no-param-reassign
           state.isIncrementing = false;
         },
       },
