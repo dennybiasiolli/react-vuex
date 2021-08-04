@@ -11,6 +11,7 @@
     "@/(.*)$": "<rootDir>/src/$1"
   },
   "rootDir": "..",
+  "testEnvironment": "jsdom",
   "testMatch": [
     "**/test/unit/**/*.js"
   ]
