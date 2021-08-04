@@ -3,11 +3,10 @@
 React bindings for [Vuex](https://vuex.vuejs.org/)
 inspired by [`react-redux`](https://github.com/reactjs/react-redux) project.
 
-[![Build Status](https://travis-ci.org/dennybiasiolli/react-vuex.svg?branch=master)](https://travis-ci.org/dennybiasiolli/react-vuex)
-[![CircleCI](https://circleci.com/gh/dennybiasiolli/react-vuex/tree/master.svg?style=svg)](https://circleci.com/gh/dennybiasiolli/react-vuex/tree/master)
+[![example workflow](https://github.com/dennybiasiolli/react-vuex/actions/workflows/node.js.yml/badge.svg)](https://github.com/dennybiasiolli/react-vuex/actions/workflows/node.js.yml)
+[![example workflow](https://github.com/dennybiasiolli/react-vuex/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/dennybiasiolli/react-vuex/actions/workflows/codeql-analysis.yml)
 [![codecov](https://codecov.io/gh/dennybiasiolli/react-vuex/branch/master/graph/badge.svg)](https://codecov.io/gh/dennybiasiolli/react-vuex)
 
-[![Beerpay](https://beerpay.io/dennybiasiolli/react-vuex/badge.svg)](https://beerpay.io/dennybiasiolli/react-vuex)
 [![Donate with Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/~36404/donate)
 
 
