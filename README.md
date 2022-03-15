@@ -5,7 +5,6 @@ inspired by [`react-redux`](https://github.com/reactjs/react-redux) project.
 
 [![example workflow](https://github.com/dennybiasiolli/react-vuex/actions/workflows/node.js.yml/badge.svg)](https://github.com/dennybiasiolli/react-vuex/actions/workflows/node.js.yml)
 [![example workflow](https://github.com/dennybiasiolli/react-vuex/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/dennybiasiolli/react-vuex/actions/workflows/codeql-analysis.yml)
-[![codecov](https://codecov.io/gh/dennybiasiolli/react-vuex/branch/master/graph/badge.svg)](https://codecov.io/gh/dennybiasiolli/react-vuex)
 
 [![Donate with Liberapay](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/~36404/donate)
 
