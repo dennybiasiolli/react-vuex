@@ -69,7 +69,6 @@
     "regenerator-runtime": "^0.13.9",
     "rimraf": "^3.0.2",
     "rollup": "^2.70.1",
-    "rollup-plugin-uglify": "^6.0.4",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   }
