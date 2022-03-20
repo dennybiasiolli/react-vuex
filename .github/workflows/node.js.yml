@@ -37,4 +37,4 @@ jobs:
         verbose: true # optional (default = false)
     - uses: coverallsapp/github-action@master
       with:
-        github-token: ${{ secrets.COVERALLS_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
