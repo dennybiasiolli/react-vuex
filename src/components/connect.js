@@ -29,11 +29,11 @@ export default (
         ...this.mappedGetters,
       };
 
-      if (this.mappedState) {
+      if (this.mappedState || this.mappedGetters) {
         this.unsubscribeFn = this.store.subscribe((mutation, state) => {
           let newState = {};
           // update state from store state
-          const newMappedState = mapStateToPropsFn(state, this.props);
+          const newMappedState = mapStateToPropsFn && mapStateToPropsFn(state, this.props);
           if (!shallowEqual(this.mappedState, newMappedState)) {
             this.mappedState = newMappedState;
             newState = { ...newState, ...this.mappedState };
@@ -41,7 +41,7 @@ export default (
 
           // update state from store getters, if any
           if (this.mappedGetters) {
-            const newMappedGetters = mapGetterToPropsFn(this.store.getters, this.props);
+            const newMappedGetters = mapGetterToPropsFn && mapGetterToPropsFn(this.store.getters, this.props);
             if (!shallowEqual(this.mappedGetters, newMappedGetters)) {
               this.mappedGetters = newMappedGetters;
               newState = { ...newState, ...this.mappedGetters };
