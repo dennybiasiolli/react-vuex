@@ -28,3 +28,11 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+        files: ./coverage/clover.xml # optional
+        flags: unittests # optional
+        name: codecov-umbrella # optional
+        fail_ci_if_error: true # optional (default = false)
+        verbose: true # optional (default = false)
