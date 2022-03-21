@@ -28,7 +28,9 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-    - uses: codecov/codecov-action@v2
+    - name: Coverage report
+      if: matrix.node-version == '16.x'
+      uses: codecov/codecov-action@v2
       with:
         token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
         flags: unittests # optional
